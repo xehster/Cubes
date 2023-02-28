@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BallSpawn : MonoBehaviour
 {
 
     [SerializeField] private Transform uiTransform;
     [SerializeField] private GameObject uiElement;
+    [SerializeField] private Text timerCounterText;
     private Vector3 targetPosition;
     public GameObject ballPrefab;
 
@@ -18,6 +20,7 @@ public class BallSpawn : MonoBehaviour
     
     private float timer;
     private float timeBetweenAddBall = 1;
+    private float tillNewBallTime;
 
     private void Start()
     {
@@ -47,7 +50,7 @@ public class BallSpawn : MonoBehaviour
     private void Update()
     {
         Counter();
-        Debug.Log(timer);
+
 
         if (canFire && Input.GetMouseButtonDown(0) && currentBallCount > 0)
         {
@@ -66,6 +69,7 @@ public class BallSpawn : MonoBehaviour
     private void Counter()
     {
         timer += Time.deltaTime;
+
         if (timer >= timeBetweenAddBall)
         {
             if (currentBallCount <= maxBallCount)
@@ -75,6 +79,20 @@ public class BallSpawn : MonoBehaviour
                 timer = 0f;
             }
         }
+        
+        tillNewBallTime = 1f - timer;
+        if (currentBallCount >= maxBallCount)
+        {
+            timer = 0f;
+            tillNewBallTime = 0f;
+        }
+        
+
+        if (tillNewBallTime <= 0)
+        {
+            tillNewBallTime = 0f;
+        }
+        timerCounterText.text = $"New ball available in: {tillNewBallTime.ToString("0.##")}";
     }
 }
 
