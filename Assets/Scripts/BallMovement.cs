@@ -6,7 +6,7 @@ using UnityEngine;
 public class BallMovement : MonoBehaviour
 {
 
-    private const float radius = 1f;
+    private const float radius = 2f;
     private const float speed = 10f;
 
     private Vector3 startPosition;
